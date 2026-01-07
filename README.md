@@ -27,8 +27,8 @@ pip install -r requirements.txt
 
 ## Running the System
 
-1.Connect both Raspberry Pis and your computer to the same Wi-Fi network.
-2.SSH into both devices:
+1. Connect both Raspberry Pis and your computer to the same Wi-Fi network.
+2. SSH into both devices:
 ```bash
 ssh username@hostname.local
 ```
@@ -36,11 +36,11 @@ ssh username@hostname.local
 ```bash
 ifconfig
 ```
-4.Start sensor server:
+4. Start sensor server:
 ```bash
 ./LaunchServer <Sensor_IP> <Q_table>   #optional Q_table
 ```
-4.Start controller client:
+5. Start controller client:
 ```bash
 ./LaunchClient-ip <Sensor_IP>
 ```
