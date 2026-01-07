@@ -1,67 +1,55 @@
-# TER_BP_JP
 
-## Commandes utilisées frequemment
+# Autonomous Slot Car Control with Q-Learning
 
-Copier des fichiers qui sont dans le raspberry:
-scp pi@your_raspberry_ip:/path/to/remote/file /path/to/local/destination
+## Overview
+This project implements a **Q-learning–based control system** for an autonomous slot car. It serves as an educational and experimental platform to explore **reinforcement learning applied to embedded and cyber-physical systems**.
 
-Lancer les scripts pythons en arriere-plan:
-nohup python3 script.py > output.log 2>&1 &
+The system runs on **Raspberry Pis**, separating sensing and control to enable modular experimentation with learning algorithms, real-time control, and networked communication.
 
-Arreter le script precedent:
-kill $(pgrep -f script.py)
+## Architecture
+- **Sensor Node** (`capteur@kpteur`)  
+  Collects sensor data from the slot car and sends it over the network.
+- **Controller Node** (`pi@controlleur`)  
+  Runs the Q-learning algorithm and controls the vehicle’s speed.
 
-Verifier le fonctionnement de systemd-networkd:
-sudo systemctl enable systemd-networkd
-sudo systemctl restart systemd-networkd
-sudo systemctl status systemd-networkd
+The nodes communicate over a local network using a simple client–server model.
 
-Activer un environement python:
-source myenv/bin/activate
+## Setup
 
-Creation environement python et installation de librairies
+### Python environment
+```bash
 python3.11 -m venv myenv
-sourche myenv/bin/activate
+source myenv/bin/activate
 pip install -r requirements.txt
+```
 
+## Running the System
 
-Username@Hostname des Raspberrys:
-capteur@kpteur
-pi@controlleur
+1.Connect both Raspberry Pis and your computer to the same Wi-Fi network.
+2.SSH into both devices:
+```bash
+ssh username@hostname.local
+```
+3. Search for the **Sensor** IP
+```bash
+ifconfig
+```
+4.Start sensor server:
+```bash
+./LaunchServer <Sensor_IP> <Q_table>   #optional Q_table
+```
+4.Start controller client:
+```bash
+./LaunchClient-ip <Sensor_IP>
+```
 
-## Demarrage
+If everything is correctly connected, the slot car should start running autonomously.
 
-- tout brancher et connecter les Raspberrys, et votre ordinateur au même reseaux wifi
+## Testing and Debugging
 
-- Ensuite se connecter par ssh aux deux Raspberrys
-avec ssh username@hosntame.local 
+Hardware and sensor tests are available in the **tests/** directory.
+**tests/gpio.py** verifies motor control by increasing speed step by step.
+Sensor values should remain in the range -0.5 to 14.7 during motion.
 
-- lancer la commande ifconfig pour noter l'adresse IP du capteur 
-
-- Sur le capteur, lancer le script ./LaunchServer <IP_Capteur> <Q_table>(Optionnel)
-    En utilisant l'environement python myenv
-    ceci lance  le script server.py en arriere arriere-plan
-    et le script capteur.py pour transmettre les données au serveur 
-    qui les transmet ensuite au controlleur
-
-- Sur le controlleur lancer ./LaunchClient -ip IP du capteur
-    En utilisant l'environement python myenv ceci lance le script
-    
-
-Si les scripts ne marchent pas il est possible de tout lancer manuellement avec les commandes
-données en haut.
-
-cela devrait donc demarrer la voiture.
-
-Si ce n'est pas le cas verifier que tout marche et est bien branché avec les scripts dans le dossier tests:
-
-le script gpio.py doit faire avancer la voiture avec des intervalles de vitesse croissants.
-
-Pour verifier le capteur il faut brancher une manette a l'endroit ou est branché le controlleur, lancer le script
-ensuite faire avancer la voiture et verifier que les mesures sont coherents (valeur comprises ente -0.5 et 14.7)
-
-
-
-## Autre
-
-Dans le git vous trouverez aussi des schemas expliquant comment brancher les differents composants, et les fiches techniques des differents composants.
+## Additional Notes
+The repository includes wiring diagrams and component datasheets to facilitate replication and further experimentation.
