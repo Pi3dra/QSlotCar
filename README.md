@@ -1,6 +1,7 @@
 
 # Autonomous Slot Car Control with Q-Learning
-
+![Demo GIF](/Docs/demo.gif)
+(the red car is autonomous)
 ## Overview
 This project implements a **Q-learning–based control system** for an autonomous slot car. It serves as an educational and experimental platform to explore **reinforcement learning applied to embedded and cyber-physical systems**.
 
